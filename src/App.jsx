@@ -17,8 +17,6 @@ export default function App() {
     <div className="app">
       <Header
         goTo={goTo}
-        onCartClick={() => setCartOpen(true)}
-        showCart={route.page !== 'home'}
       />
 
       <main>
@@ -55,9 +53,7 @@ export default function App() {
 
 // ---------- Header ----------
 
-function Header({ goTo, onCartClick, showCart }) {
-  const { totalItems } = useCart()
-
+function Header({ goTo }) {
   return (
     <header className="site-header">
       <div className="utility-bar">
@@ -68,23 +64,16 @@ function Header({ goTo, onCartClick, showCart }) {
         <button className="brand" onClick={() => goTo('home')} aria-label="SmartCraft home">
           <img src="/logo.jpeg" alt="SmartCraft Furniture & Interior Solutions" className="brand-logo" />
         </button>
-
-        {showCart && (
-          <button className="cart-button" onClick={onCartClick}>
-            Cart
-            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
-          </button>
-        )}
+        <nav className="category-nav" aria-label="Product categories">
+          <button onClick={() => goTo('catalog', { category: 'all' })}>All products</button>
+          {CATEGORIES.map((category) => (
+            <button key={category.id} onClick={() => goTo('catalog', { category: category.id })}>
+              {category.label}
+            </button>
+          ))}
+        </nav>
       </div>
 
-      <nav className="category-nav">
-        <button onClick={() => goTo('catalog', { category: 'all' })}>All products</button>
-        {CATEGORIES.map((c) => (
-          <button key={c.id} onClick={() => goTo('catalog', { category: c.id })}>
-            {c.label}
-          </button>
-        ))}
-      </nav>
     </header>
   )
 }
@@ -112,24 +101,8 @@ function Home({ goTo }) {
               <button className="btn-primary" onClick={() => goTo('catalog', { category: 'all' })}>
                 Explore the collection
               </button>
-              <button className="hero-link" onClick={() => goTo('catalog', { category: 'beds' })}>
-                Shop bedroom furniture <span aria-hidden="true">→</span>
-              </button>
             </div>
           </div>
-        </div>
-
-        <div className="hero-rail" aria-label="Shop collections">
-          {CATEGORIES.map((c) => (
-            <button key={c.id} className="hero-rail-item" onClick={() => goTo('catalog', { category: c.id })}>
-              <img src={imageForCategory(c.id)} alt="" className="hero-tile-image" />
-              <span>
-                <strong>{c.label}</strong>
-                <small>{c.tagline}</small>
-              </span>
-              <span className="hero-rail-arrow" aria-hidden="true">↗</span>
-            </button>
-          ))}
         </div>
       </section>
 
