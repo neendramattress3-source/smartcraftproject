@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CATEGORIES, PRODUCTS, ROOM_CATEGORIES, formatINR } from './data/products'
 import FurnitureIcon from './components/FurnitureIcon'
 import { useCart } from './CartContext'
@@ -128,27 +128,94 @@ function Header({ goTo, query, setQuery, onCartClick }) {
 // ---------- Home ----------
 
 function Home({ goTo }) {
+  const [activeSlide, setActiveSlide] = useState(0)
+
+  const heroSlides = [
+    {
+      image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=88',
+      eyebrow: 'Beautiful spaces, thoughtfully made',
+      title: 'Furniture that brings every room to life.',
+      body: 'Comfortable, considered pieces for homes, workspaces, and hospitality interiors.',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1800&q=88',
+      eyebrow: 'Beautiful spaces, thoughtfully made',
+      title: 'Comfort that feels like home.',
+      body: 'Furniture with warm materials, considered proportions, and the everyday ease your rooms deserve.',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=88',
+      eyebrow: 'Office furniture',
+      title: 'Workspaces built for better ideas.',
+      body: 'Desks, seating, and storage that make focused work feel more comfortable.',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=88',
+      eyebrow: 'Restaurant and hotel furniture',
+      title: 'Spaces guests remember.',
+      body: 'Durable, welcoming furniture for restaurants, hotels, and hospitality projects.',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1800&q=88',
+      eyebrow: 'Healthcare furniture',
+      title: 'Calmer spaces for better care.',
+      body: 'Practical furniture for clinics, hospitals, waiting areas, and care environments.',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1800&q=88',
+      eyebrow: 'Living room collection',
+      title: 'Gather well. Live comfortably.',
+      body: 'Sofas, chairs, tables, and storage designed around the way you live.',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1800&q=88',
+      eyebrow: 'Dining collection',
+      title: 'Make room for good moments.',
+      body: 'Dining tables and chairs made for everyday meals and celebrations alike.',
+    },
+  ]
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % heroSlides.length)
+    }, 5000)
+
+    return () => window.clearInterval(timer)
+  }, [heroSlides.length])
+
+  const slide = heroSlides[activeSlide]
+
   return (
     <>
       <section className="hero">
         <div className="hero-stage">
           <img
+            key={slide.image}
             className="hero-background"
-            src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=88"
-            alt="Warm modern living room with layered wood furniture"
+            src={slide.image}
+            alt={slide.title}
           />
           <div className="hero-shade" />
-          <div className="hero-copy">
-            <p className="hero-eyebrow">Beautiful spaces, thoughtfully made</p>
-            <h1>Comfort that feels like home.</h1>
-            <p className="hero-body">
-              Furniture with warm materials, considered proportions, and the everyday ease your rooms deserve.
-            </p>
+          <div className="hero-copy" key={slide.title}>
+            <p className="hero-eyebrow">{slide.eyebrow}</p>
+            <h1>{slide.title}</h1>
+            <p className="hero-body">{slide.body}</p>
             <div className="hero-actions">
               <button className="btn-primary" onClick={() => goTo('catalog', { category: 'all' })}>
                 Explore the collection
               </button>
             </div>
+          </div>
+          <div className="hero-dots" aria-label="Hero slides">
+            {heroSlides.map((item, index) => (
+              <button
+                key={item.title}
+                className={index === activeSlide ? 'hero-dot hero-dot-active' : 'hero-dot'}
+                onClick={() => setActiveSlide(index)}
+                aria-label={`Show slide ${index + 1}`}
+                aria-current={index === activeSlide ? 'true' : undefined}
+              />
+            ))}
           </div>
         </div>
       </section>
