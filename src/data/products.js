@@ -8,7 +8,16 @@ export const CATEGORIES = [
   { id: 'dressing-tables', label: 'Dressing Tables', tagline: 'Mirror units sized for small and large rooms' },
 ]
 
-export const PRODUCTS = [
+export const ROOM_CATEGORIES = [
+  { id: 'living-room', label: 'Living Room', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=85', price: 8999 },
+  { id: 'dining', label: 'Dining', image: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=900&q=85', price: 12999 },
+  { id: 'bedroom', label: 'Bedroom', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=85', price: 12499 },
+  { id: 'storage', label: 'Storage', image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=900&q=85', price: 9999 },
+  { id: 'office-study', label: 'Office & Study', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85', price: 7499 },
+  { id: 'outdoor-essentials', label: 'Outdoor & Essentials', image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=85', price: 5999 },
+]
+
+const CORE_PRODUCTS = [
   {
     id: 'bed-oakridge-queen',
     name: 'Oakridge Queen Bed',
@@ -226,6 +235,92 @@ export const PRODUCTS = [
     stock: 5,
   },
 ]
+
+const ROOM_PRODUCT_CONFIG = {
+  'living-room': {
+    prefix: 'living',
+    material: 'Solid wood and engineered wood',
+    color: 'Warm walnut',
+    storage: 'Open shelving and drawers',
+    basePrice: 8999,
+    names: ['Arden Sofa', 'Milo Lounge Chair', 'Haven Coffee Table', 'Luca TV Unit', 'Nora Side Table', 'Cedar Bookshelf', 'Mason Recliner', 'Ivy Console', 'Kora Nesting Tables', 'Atlas Sofa', 'Rhea Accent Chair', 'Oakline TV Cabinet', 'Mira Floor Shelf', 'Hugo Ottoman', 'Sienna Media Unit', 'Cove End Table', 'Rowan Display Cabinet', 'Elm Lounge Set', 'Tara Console Table', 'Briar Coffee Table', 'Dune Three-Seater Sofa', 'Wren Armchair', 'Piper TV Stand', 'Solace Lounge Chair', 'Ava Round Coffee Table', 'Niko Media Console', 'Fern Accent Table'],
+    images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1550226891-ef816aed4a98?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=900&q=85'],
+  },
+  dining: {
+    prefix: 'dining',
+    material: 'Solid mango wood',
+    color: 'Natural oak',
+    storage: 'Dining storage and display',
+    basePrice: 12999,
+    names: ['Harlow Dining Table', 'Marlow Dining Chair', 'Eden 4-Seater Set', 'Sora Sideboard', 'Willow Bench', 'Oakcrest Bar Cabinet', 'Cleo Dining Chair', 'Aster 6-Seater Set', 'Pine Buffet Unit', 'Linden Breakfast Table', 'Noma Dining Chair', 'Bergen Sideboard', 'Faye Bar Stool', 'Cedar Dining Bench', 'Arlo Round Table', 'Meadow Crockery Unit', 'Nova Dining Chair', 'Harper 4-Seater Set', 'Wren Console', 'Sol Dining Table', 'Juniper Dining Chair', 'Marlow 6-Seater Table', 'Fable Sideboard', 'Nora Counter Stool', 'Oak & Cane Bench', 'Rin Breakfast Nook', 'Cedar Crockery Cabinet'],
+    images: ['https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1604578762246-41134e37f9cc?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=85'],
+  },
+  bedroom: {
+    prefix: 'bedroom',
+    material: 'Sheesham wood',
+    color: 'Walnut brown',
+    storage: 'Bedroom storage',
+    basePrice: 12499,
+    names: ['Alder Queen Bed', 'Marlow King Bed', 'Nora Bedside Table', 'Haven Bedroom Bench', 'Luna Nightstand', 'Oakridge Headboard', 'Cedar Queen Bed', 'Aria Bedside Pair', 'Mason Storage Bed', 'Iris Bedroom Stool', 'Rowan King Bed', 'Cove Nightstand', 'Elara Queen Bed', 'Briar Bedside Table', 'Willow Storage Bench', 'Atlas Platform Bed', 'Mira Vanity Unit', 'Sienna Single Bed', 'Elm Bedroom Set', 'Tara Dressing Stool', 'Dahlia King Bed', 'Aspen Queen Bed', 'Lark Bedside Cabinet', 'Mira Bedroom Bench', 'Cove Upholstered Bed', 'Rhea Nightstand', 'Haven Dressing Mirror'],
+    images: ['https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=85'],
+  },
+  storage: {
+    prefix: 'storage',
+    material: 'Engineered wood and laminate',
+    color: 'Matte oak',
+    storage: 'Adjustable shelves and drawers',
+    basePrice: 9999,
+    names: ['Camden Wardrobe', 'Berlin Storage Unit', 'Slimline Cabinet', 'Heritage Bookcase', 'Oak Tallboy', 'Mira Shoe Cabinet', 'Aster Sideboard', 'Cedar Display Shelf', 'Luca Drawer Chest', 'Nora Utility Cabinet', 'Rowan Wardrobe', 'Haven Bookshelf', 'Arlo Storage Bench', 'Ivy Wall Shelf', 'Mason Crockery Unit', 'Cove Console Cabinet', 'Willow Shoe Rack', 'Atlas Display Unit', 'Briar Chest of Drawers', 'Sora Modular Cabinet', 'Dune Sliding Wardrobe', 'Piper Storage Tower', 'Fern Drawer Chest', 'Oakline Modular Shelf', 'Rin Utility Rack', 'Solace Shoe Cabinet', 'Ava Linen Cabinet'],
+    images: ['https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=85'],
+  },
+  'office-study': {
+    prefix: 'office',
+    material: 'Engineered wood and metal',
+    color: 'Walnut and black',
+    storage: 'Workstation storage',
+    basePrice: 7499,
+    names: ['Alder Study Desk', 'Milo Office Chair', 'Cedar Writing Desk', 'Nora Filing Cabinet', 'Haven Bookshelf', 'Atlas Work Table', 'Luca Desk Chair', 'Rowan Study Unit', 'Ivy Monitor Stand', 'Arlo Office Desk', 'Mason Storage Rack', 'Cove Task Chair', 'Briar Writing Table', 'Sora Drawer Unit', 'Elm Meeting Table', 'Tara Study Chair', 'Oakline Office Shelf', 'Mira Computer Desk', 'Willow Desk Lamp Table', 'Harper Office Cabinet', 'Dune Executive Desk', 'Piper Visitor Chair', 'Fern Office Shelf', 'Solace Workstation', 'Ava Filing Unit', 'Rin Study Hutch'],
+    images: ['https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=900&q=85'],
+  },
+  'outdoor-essentials': {
+    prefix: 'outdoor',
+    material: 'Weather-resistant wood and metal',
+    color: 'Natural teak',
+    storage: 'Outdoor utility storage',
+    basePrice: 5999,
+    names: ['Cove Patio Chair', 'Briar Outdoor Seating Chair', 'Milo Balcony Set', 'Haven Planter Stand', 'Aster Garden Bench', 'Willow Folding Chair', 'Cedar Outdoor Sofa', 'Nora Plant Ladder', 'Arlo Bistro Table', 'Sora Deck Chair', 'Oakline Garden Table', 'Mira Outdoor Stool', 'Rowan Patio Bench', 'Ivy Balcony Shelf', 'Atlas Outdoor Lounger', 'Luca Planter Box', 'Meadow Garden Chair', 'Cleo Picnic Bench', 'Elm Outdoor Side Table', 'Tara Porch Swing', 'Dune Poolside Chair', 'Piper Outdoor Lounge Set', 'Fern Garden Stool', 'Solace Patio Loveseat', 'Ava Deck Bench', 'Rin Outdoor Rocking Chair'],
+    images: ['https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=900&q=85', 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=900&q=85'],
+  },
+}
+
+function createRoomProducts() {
+  return Object.entries(ROOM_PRODUCT_CONFIG).flatMap(([category, config]) =>
+    config.names.map((name, index) => {
+      const price = config.basePrice + (index % 5) * 1800
+      return {
+        id: `${config.prefix}-${index + 1}`,
+        name,
+        category,
+        icon: 'bed',
+        image: `${config.images[index % config.images.length]}&crop=focalpoint&fp-x=${(((index * 37) % 70) + 15) / 100}&fp-y=${(((index * 53) % 70) + 15) / 100}`,
+        price,
+        mrp: price + 4500,
+        rating: Number((4.1 + (index % 8) * 0.1).toFixed(1)),
+        reviews: 84 + index * 17,
+        material: config.material,
+        size: 'Standard home size',
+        color: config.color,
+        storage: config.storage,
+        description: `${name} designed for practical homes with warm materials and dependable everyday comfort.`,
+        highlights: ['Durable everyday construction', 'Easy home delivery', '1-year product support'],
+        stock: 8 + (index % 15),
+      }
+    })
+  )
+}
+
+export const ROOM_PRODUCTS = createRoomProducts()
+export const PRODUCTS = [...CORE_PRODUCTS, ...ROOM_PRODUCTS]
 
 export function formatINR(amount) {
   return '₹' + amount.toLocaleString('en-IN')

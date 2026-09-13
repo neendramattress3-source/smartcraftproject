@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
-import { CATEGORIES, PRODUCTS, formatINR } from './data/products'
+import { CATEGORIES, PRODUCTS, ROOM_CATEGORIES, formatINR } from './data/products'
 import FurnitureIcon from './components/FurnitureIcon'
 import { useCart } from './CartContext'
+
+const CATALOG_CATEGORIES = [...CATEGORIES, ...ROOM_CATEGORIES]
 
 export default function App() {
   const [route, setRoute] = useState({ page: 'home' })
@@ -17,6 +19,9 @@ export default function App() {
     <div className="app">
       <Header
         goTo={goTo}
+        query={query}
+        setQuery={setQuery}
+        onCartClick={() => setCartOpen(true)}
       />
 
       <main>
@@ -34,9 +39,11 @@ export default function App() {
         )}
         {route.page === 'checkout' && <Checkout goTo={goTo} />}
         {route.page === 'order-confirmed' && <OrderConfirmed goTo={goTo} orderId={route.orderId} />}
+        {route.page === 'about' && <AboutUs goTo={goTo} />}
+        {route.page === 'contact' && <ContactUs goTo={goTo} />}
       </main>
 
-      <Footer />
+      <Footer goTo={goTo} />
 
       {cartOpen && (
         <CartDrawer
@@ -53,27 +60,67 @@ export default function App() {
 
 // ---------- Header ----------
 
-function Header({ goTo }) {
+function Header({ goTo, query, setQuery, onCartClick }) {
+  const { totalItems } = useCart()
+
+  function submitSearch(event) {
+    event.preventDefault()
+    goTo('catalog', { category: 'all' })
+  }
+
   return (
     <header className="site-header">
       <div className="utility-bar">
-        <span>Thoughtful furniture for beautifully lived-in homes</span>
-        <span className="utility-links">Free delivery above ₹15,000 · 7-day replacement</span>
+        <span className="utility-item"><span className="utility-icon">⌂</span>Call Now: +91-7503770117</span>
+        <span className="utility-item utility-links"><span className="utility-icon">☆</span>Trusted by 5,00,000+ Happy Customers</span>
       </div>
       <div className="header-row">
         <button className="brand" onClick={() => goTo('home')} aria-label="SmartCraft home">
           <img src="/logo.jpeg" alt="SmartCraft Furniture & Interior Solutions" className="brand-logo" />
         </button>
-        <nav className="category-nav" aria-label="Product categories">
-          <button onClick={() => goTo('catalog', { category: 'all' })}>All products</button>
-          {CATEGORIES.map((category) => (
-            <button key={category.id} onClick={() => goTo('catalog', { category: category.id })}>
-              {category.label}
+        <form className="search-form" onSubmit={submitSearch} role="search">
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search for furniture"
+            aria-label="Search for furniture"
+          />
+          {query && (
+            <button type="button" className="search-clear" onClick={() => setQuery('')} aria-label="Clear search">
+              ×
             </button>
-          ))}
-        </nav>
+          )}
+          <button type="submit" aria-label="Search">⌕</button>
+        </form>
+        <div className="header-actions">
+          <button className="header-action" onClick={() => goTo('home')}>
+            <img src="/icons/store.svg" alt="" className="header-action-icon" />
+            <span>Store</span>
+          </button>
+          <button className="header-action" onClick={() => goTo('home')}>
+            <img src="/icons/account.svg" alt="" className="header-action-icon" />
+            <span>Account</span>
+          </button>
+          <button className="header-action" onClick={() => goTo('home')}>
+            <img src="/icons/wishlist.svg" alt="" className="header-action-icon" />
+            <span>Wishlist</span>
+            <b className="action-badge">0</b>
+          </button>
+          <button className="header-action" onClick={onCartClick}>
+            <img src="/icons/cart.svg" alt="" className="header-action-icon" />
+            <span>Cart</span>
+            <b className="action-badge">{totalItems}</b>
+          </button>
+        </div>
       </div>
-
+      <nav className="category-nav" aria-label="Furniture categories">
+        {ROOM_CATEGORIES.map((room) => (
+          <button key={room.id} onClick={() => goTo('catalog', { category: room.id })}>
+            {room.label}
+          </button>
+        ))}
+        <button onClick={() => goTo('about')}>About Us</button>
+      </nav>
     </header>
   )
 }
@@ -125,22 +172,22 @@ function Home({ goTo }) {
         </div>
       </section>
 
-      <section className="home-section collection-section">
+      <section className="home-section room-categories-section" id="room-categories">
         <div className="home-section-head">
-          <h2>Shop by collection</h2>
-          <button className="link-button" onClick={() => goTo('catalog', { category: 'all' })}>
-            View all →
-          </button>
+          <div>
+            <p className="hero-eyebrow">Shop by room</p>
+            <h2>Furniture for every part of home.</h2>
+          </div>
+          <button className="link-button" onClick={() => goTo('catalog', { category: 'all' })}>View all →</button>
         </div>
-
-        <div className="collection-grid">
-          {CATEGORIES.map((c) => (
-            <button key={c.id} className="collection-card" onClick={() => goTo('catalog', { category: c.id })}>
-              <img src={imageForCategory(c.id)} alt="" className="collection-image" />
-              <div>
-                <span className="collection-label">{c.label}</span>
-                <strong>{c.tagline}</strong>
-              </div>
+        <div className="room-category-grid">
+          {ROOM_CATEGORIES.map((room) => (
+            <button className="room-category-card" key={room.id} onClick={() => goTo('catalog', { category: room.id })}>
+              <img src={room.image} alt={`${room.label} furniture`} />
+              <span className="room-category-copy">
+                <strong>{room.label}</strong>
+                <small>From {formatINR(room.price)}</small>
+              </span>
             </button>
           ))}
         </div>
@@ -171,35 +218,7 @@ function Home({ goTo }) {
         </div>
       </section>
 
-      <section className="home-section">
-        <div className="home-section-head">
-          <h2>Best sellers</h2>
-          <button className="link-button" onClick={() => goTo('catalog', { category: 'all' })}>
-            View all →
-          </button>
-        </div>
-        <ProductGrid products={topRated(PRODUCTS, 4)} goTo={goTo} />
-      </section>
-
-      <section className="home-section browse-filter-section">
-        <div className="browse-filter-intro">
-          <p className="hero-eyebrow">Shop by space</p>
-          <h2>Find the right piece for your home.</h2>
-        </div>
-        <div className="browse-filter-list">
-          {CATEGORIES.map((category) => (
-            <details className="browse-filter" key={category.id}>
-              <summary>{category.label}<span aria-hidden="true">⌄</span></summary>
-              <div className="browse-filter-content">
-                <p>{category.tagline}</p>
-                <button className="link-button" onClick={() => goTo('catalog', { category: category.id })}>
-                  View {category.label} →
-                </button>
-              </div>
-            </details>
-          ))}
-        </div>
-      </section>
+      <BestSellers goTo={goTo} />
     </>
   )
 }
@@ -216,6 +235,88 @@ function imageForCategory(categoryId) {
 
 function topRated(products, count) {
   return [...products].sort((a, b) => b.rating - a.rating).slice(0, count)
+}
+
+function BestSellers({ goTo }) {
+  const [category, setCategory] = useState('all')
+  const [maxPrice, setMaxPrice] = useState(50000)
+  const filteredProducts = topRated(
+    PRODUCTS.filter((product) => {
+      const matchesCategory = category === 'all' || product.category === category
+      return matchesCategory && product.price <= maxPrice
+    }),
+    80
+  )
+
+  function resetFilters() {
+    setCategory('all')
+    setMaxPrice(50000)
+  }
+
+  return (
+    <section className="home-section best-sellers-section">
+      <div className="home-section-head">
+        <h2>Best sellers</h2>
+        <button className="link-button" onClick={() => goTo('catalog', { category: 'all' })}>
+          View all →
+        </button>
+      </div>
+
+      <div className="best-sellers-layout">
+        <aside className="catalog-filters best-seller-filters">
+          <div className="filter-head">
+            <h2>Filter by</h2>
+            <button className="clear-filter" onClick={resetFilters}>Clear all</button>
+          </div>
+          <div className="filter-block">
+            <h3>Category</h3>
+            <button className={category === 'all' ? 'filter-active' : ''} onClick={() => setCategory('all')}>
+              All
+            </button>
+            {CATEGORIES.map((item) => (
+              <button
+                key={item.id}
+                className={category === item.id ? 'filter-active' : ''}
+                onClick={() => setCategory(item.id)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+          <div className="filter-block">
+            <h3>Max price: {formatINR(maxPrice)}</h3>
+            <input
+              type="range"
+              min="8000"
+              max="50000"
+              step="1000"
+              value={maxPrice}
+              onChange={(event) => setMaxPrice(Number(event.target.value))}
+            />
+          </div>
+        </aside>
+
+        <div className="best-seller-results">
+          <div className="catalog-toolbar">
+            <span>Showing {filteredProducts.length} products</span>
+            <div className="catalog-toolbar-actions">
+              <button className="view-button view-active" aria-label="Grid view">▦</button>
+              <button className="view-button" onClick={() => goTo('catalog', { category })} aria-label="View all products">▤</button>
+              <button className="best-seller-sort" onClick={() => goTo('catalog', { category: 'all' })}>
+                Best selling
+              </button>
+            </div>
+          </div>
+          <p className="best-seller-count">Showing {filteredProducts.length} best-selling products</p>
+          {filteredProducts.length > 0 ? (
+            <ProductGrid products={filteredProducts} goTo={goTo} />
+          ) : (
+            <p className="empty-state">No best sellers match these filters.</p>
+          )}
+        </div>
+      </div>
+    </section>
+  )
 }
 
 // ---------- Catalog ----------
@@ -247,7 +348,7 @@ function Catalog({ category, query, setQuery, goTo }) {
   }, [category, query, sort, maxPrice])
 
   const categoryLabel =
-    category === 'all' ? 'All products' : CATEGORIES.find((c) => c.id === category)?.label
+    category === 'all' ? 'All products' : CATALOG_CATEGORIES.find((c) => c.id === category)?.label
 
   return (
     <section className="catalog">
@@ -290,7 +391,7 @@ function Catalog({ category, query, setQuery, goTo }) {
             >
               All
             </button>
-            {CATEGORIES.map((c) => (
+            {CATALOG_CATEGORIES.map((c) => (
               <button
                 key={c.id}
                 className={category === c.id ? 'filter-active' : ''}
@@ -435,7 +536,7 @@ function ProductDetail({ productId, goTo }) {
   return (
     <section className="product-detail">
       <button className="back-link" onClick={() => goTo('catalog', { category: product.category })}>
-        ← Back to {CATEGORIES.find((c) => c.id === product.category)?.label}
+        ← Back to {CATALOG_CATEGORIES.find((c) => c.id === product.category)?.label}
       </button>
 
       <div className="detail-grid">
@@ -728,16 +829,130 @@ function OrderConfirmed({ goTo, orderId }) {
   )
 }
 
+function AboutUs({ goTo }) {
+  return (
+    <section className="info-page">
+      <div className="info-hero">
+        <p className="hero-eyebrow">About SmartCraft</p>
+        <h1>Furniture made for beautifully lived-in homes.</h1>
+        <p>We bring together dependable materials, thoughtful proportions, and honest pricing so every room feels considered without feeling precious.</p>
+      </div>
+
+      <div className="info-grid">
+        <div className="info-copy">
+          <h2>Built around real homes.</h2>
+          <p>SmartCraft Furnishing Solutions helps families choose furniture that works hard every day. From solid-wood beds to practical storage and welcoming living-room pieces, our collection is selected for comfort, durability, and easy everyday living.</p>
+          <p>Our team supports you from product selection through delivery, with clear prices and room-friendly dimensions at every step.</p>
+          <button className="btn-primary" onClick={() => goTo('contact')}>Contact us</button>
+        </div>
+        <img className="info-image" src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85" alt="Warmly furnished living room" />
+      </div>
+
+      <div className="about-values">
+        <div><strong>01</strong><h3>Thoughtful materials</h3><p>Warm finishes and sturdy construction selected for daily use.</p></div>
+        <div><strong>02</strong><h3>Practical design</h3><p>Useful storage and proportions that suit real room sizes.</p></div>
+        <div><strong>03</strong><h3>Helpful service</h3><p>Clear buying support, tracked delivery, and simple replacement help.</p></div>
+      </div>
+    </section>
+  )
+}
+
+function ContactUs({ goTo }) {
+  const [sent, setSent] = useState(false)
+
+  function submitContact(event) {
+    event.preventDefault()
+    setSent(true)
+  }
+
+  return (
+    <section className="info-page contact-page">
+      <div className="info-hero">
+        <p className="hero-eyebrow">Contact SmartCraft</p>
+        <h1>Let us help with your space.</h1>
+        <p>Tell us what you are furnishing and our team will get back to you with practical recommendations.</p>
+      </div>
+
+      <div className="contact-layout">
+        <div className="contact-card">
+          <h2>Contact details</h2>
+          <a href="tel:+917503770117"><strong>Call us</strong><span>+91-7503770117</span></a>
+          <a href="mailto:hello@smartcraftfurnishing.com"><strong>Email us</strong><span>hello@smartcraftfurnishing.com</span></a>
+          <div><strong>Service hours</strong><span>Monday to Saturday, 10:00 AM to 7:00 PM</span></div>
+          <button className="link-button" onClick={() => goTo('home')}>Back to home →</button>
+        </div>
+        <form className="contact-form" onSubmit={submitContact}>
+          <h2>Send an enquiry</h2>
+          <label>Name<input required /></label>
+          <label>Phone number<input required type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number" /></label>
+          <label>How can we help?<textarea required rows={5} /></label>
+          {sent && <p className="contact-success">Thanks. Our team will contact you shortly.</p>}
+          <button className="btn-primary" type="submit">Send message</button>
+        </form>
+      </div>
+    </section>
+  )
+}
+
 // ---------- Footer ----------
 
-function Footer() {
+function Footer({ goTo }) {
   return (
-    <footer className="site-footer">
-      <div>
-        <p className="brand-name-footer">SmartCraft Furnishing Solutions</p>
-        <p>Beds · Almirahs · Dressing Tables — delivered across India.</p>
-      </div>
-      <p className="footer-note">This is a demo storefront. Prices and stock are illustrative.</p>
-    </footer>
+    <>
+      <section className="footer-benefits" aria-label="Why shop with us">
+        <div><span className="footer-benefit-icon">◆</span><span><strong>Manufacturing Unit</strong><small>Best quality at the best price</small></span></div>
+        <div><span className="footer-benefit-icon">✎</span><span><strong>Custom-Made Options</strong><small>Tailored to your style and comfort</small></span></div>
+        <div><span className="footer-benefit-icon">✓</span><span><strong>Durable &amp; Reliable</strong><small>Long-lasting furniture with top-grade craftsmanship</small></span></div>
+        <div><span className="footer-benefit-icon">▤</span><span><strong>Bulk &amp; Corporate Orders</strong><small>Special pricing and dedicated support for businesses</small></span></div>
+      </section>
+
+      <footer className="site-footer">
+        <div className="footer-main">
+          <div className="footer-brand-column">
+            <div className="footer-logo-panel">
+              <img src="/logo.jpeg" alt="SmartCraft Furniture & Interior Solutions" />
+            </div>
+            <p className="footer-description">Premium furniture, crafted for comfort and designed for your lifestyle.</p>
+            <p className="footer-contact">☎ <a href="tel:+917503770117">+91 7503770117</a></p>
+            <p className="footer-contact">✉ <a href="mailto:hello@smartcraftfurnishing.com">hello@smartcraftfurnishing.com</a></p>
+            <p className="footer-contact">⌖ Shri Krishna Furniture Mart, Alwar, Rajasthan 301001</p>
+          </div>
+
+          <div className="footer-column">
+            <h3>Quick Links</h3>
+            <button onClick={() => goTo('about')}>About Us</button>
+            <button onClick={() => goTo('contact')}>Contact Us</button>
+            <button onClick={() => goTo('catalog', { category: 'all' })}>All Products</button>
+            <button onClick={() => goTo('home')}>Home</button>
+          </div>
+
+          <div className="footer-column">
+            <h3>Shop</h3>
+            <button onClick={() => goTo('catalog', { category: 'living-room' })}>Living Room</button>
+            <button onClick={() => goTo('catalog', { category: 'dining' })}>Dining</button>
+            <button onClick={() => goTo('catalog', { category: 'bedroom' })}>Bedroom</button>
+            <button onClick={() => goTo('catalog', { category: 'storage' })}>Storage</button>
+            <button onClick={() => goTo('catalog', { category: 'office-study' })}>Office &amp; Study</button>
+            <button onClick={() => goTo('catalog', { category: 'outdoor-essentials' })}>Outdoor &amp; Essentials</button>
+          </div>
+
+          <div className="footer-column footer-newsletter">
+            <h3>Subscribe to Our Newsletter</h3>
+            <p>Get updates on new arrivals, offers, and design inspiration.</p>
+            <form onSubmit={(event) => event.preventDefault()}>
+              <input type="email" required placeholder="Enter your email address" aria-label="Email address" />
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 SmartCraft Furniture. All rights reserved.</span>
+          <span>Secure Payments</span>
+          <span>Easy Returns</span>
+          <span>Pan-India Delivery</span>
+          <span>No Cost EMI</span>
+        </div>
+      </footer>
+    </>
   )
 }
