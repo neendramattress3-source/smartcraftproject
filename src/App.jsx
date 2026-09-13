@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { CATEGORIES, PRODUCTS, ROOM_CATEGORIES, formatINR } from './data/products'
 import FurnitureIcon from './components/FurnitureIcon'
 import { useCart } from './CartContext'
@@ -956,11 +956,60 @@ function ContactUs({ goTo }) {
   )
 }
 
+const customerPartnerImages = [
+  '/1 (1).jpeg',
+  '/1 (2).jpeg',
+  '/1 (3).jpeg',
+  '/1 (4).jpeg',
+  '/1.jpeg',
+]
+
+function CustomerPartners() {
+  const logoRailRef = useRef(null)
+
+  function scrollLogos(direction) {
+    logoRailRef.current?.scrollBy({ left: direction * 280, behavior: 'smooth' })
+  }
+
+  return (
+    <section className="customer-partners" aria-labelledby="customer-partners-title">
+      <div className="customer-partners-intro">
+        <h2 id="customer-partners-title">Our Partners</h2>
+      </div>
+      <div className="customer-partner-carousel">
+        <button className="customer-partner-arrow" type="button" aria-label="Previous partners" onClick={() => scrollLogos(-1)}>
+          &#8249;
+        </button>
+        <div className="customer-partner-logos" ref={logoRailRef}>
+          {customerPartnerImages.map((image, index) => (
+            <div className="customer-partner-logo" key={image}>
+              <img src={image} alt={`Customer and partner image ${index + 1}`} loading="lazy" />
+            </div>
+          ))}
+        </div>
+        <button className="customer-partner-arrow" type="button" aria-label="Next partners" onClick={() => scrollLogos(1)}>
+          &#8250;
+        </button>
+      </div>
+      <div className="customer-partner-highlights" aria-label="Customer and partner services">
+        <span>Custom solutions</span>
+        <i aria-hidden="true" />
+        <span>Bulk Orders</span>
+        <i aria-hidden="true" />
+        <span>Project Support</span>
+        <i aria-hidden="true" />
+        <span>Dedicated Service</span>
+      </div>
+    </section>
+  )
+}
+
 // ---------- Footer ----------
 
 function Footer({ goTo }) {
   return (
     <>
+      <CustomerPartners />
       <section className="footer-benefits" aria-label="Why shop with us">
         <div><span className="footer-benefit-icon">◆</span><span><strong>Manufacturing Unit</strong><small>Best quality at the best price</small></span></div>
         <div><span className="footer-benefit-icon">✎</span><span><strong>Custom-Made Options</strong><small>Tailored to your style and comfort</small></span></div>
