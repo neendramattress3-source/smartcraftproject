@@ -157,22 +157,10 @@ function Home({ goTo }) {
       body: 'Durable, welcoming furniture for restaurants, hotels, and hospitality projects.',
     },
     {
-      image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1800&q=88',
-      eyebrow: 'Healthcare furniture',
-      title: 'Calmer spaces for better care.',
-      body: 'Practical furniture for clinics, hospitals, waiting areas, and care environments.',
-    },
-    {
-      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1800&q=88',
-      eyebrow: 'Living room collection',
-      title: 'Gather well. Live comfortably.',
-      body: 'Sofas, chairs, tables, and storage designed around the way you live.',
-    },
-    {
-      image: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1800&q=88',
-      eyebrow: 'Dining collection',
-      title: 'Make room for good moments.',
-      body: 'Dining tables and chairs made for everyday meals and celebrations alike.',
+      image: '/Carasoul5.jpeg',
+      eyebrow: 'Beautiful spaces, thoughtfully made',
+      title: 'Designed for the way you live.',
+      body: 'Comfortable, considered furniture for every room and every day.',
     },
   ]
 
