@@ -9,12 +9,12 @@ export const CATEGORIES = [
 ]
 
 export const ROOM_CATEGORIES = [
-  { id: 'living-room', label: 'Living Room', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=85', price: 8999 },
-  { id: 'dining', label: 'Dining', image: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=900&q=85', price: 12999 },
-  { id: 'bedroom', label: 'Bedroom', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=85', price: 12499 },
-  { id: 'storage', label: 'Storage', image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=900&q=85', price: 9999 },
-  { id: 'office-study', label: 'Office & Study', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85', price: 7499 },
-  { id: 'outdoor-essentials', label: 'Outdoor & Essentials', image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=85', price: 5999 },
+  { id: 'living-room', label: 'Living Room', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=85', price: 35996 },
+  { id: 'dining', label: 'Dining', image: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=900&q=85', price: 51996 },
+  { id: 'bedroom', label: 'Bedroom', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=85', price: 49996 },
+  { id: 'storage', label: 'Storage', image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=900&q=85', price: 39996 },
+  { id: 'office-study', label: 'Office & Study', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85', price: 29996 },
+  { id: 'outdoor-essentials', label: 'Outdoor & Essentials', image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=85', price: 23996 },
 ]
 
 const CORE_PRODUCTS = [
@@ -320,7 +320,11 @@ function createRoomProducts() {
 }
 
 export const ROOM_PRODUCTS = createRoomProducts()
-export const PRODUCTS = [...CORE_PRODUCTS, ...ROOM_PRODUCTS]
+export const PRODUCTS = [...CORE_PRODUCTS, ...ROOM_PRODUCTS].map((product) => ({
+  ...product,
+  price: product.price * 4,
+  mrp: product.mrp * 4,
+}))
 
 export function formatINR(amount) {
   return '₹' + amount.toLocaleString('en-IN')

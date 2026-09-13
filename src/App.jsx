@@ -284,7 +284,7 @@ function topRated(products, count) {
 
 function BestSellers({ goTo }) {
   const [category, setCategory] = useState('all')
-  const [maxPrice, setMaxPrice] = useState(50000)
+  const [maxPrice, setMaxPrice] = useState(200000)
   const filteredProducts = topRated(
     PRODUCTS.filter((product) => {
       const matchesCategory = category === 'all' || product.category === category
@@ -295,7 +295,7 @@ function BestSellers({ goTo }) {
 
   function resetFilters() {
     setCategory('all')
-    setMaxPrice(50000)
+    setMaxPrice(200000)
   }
 
   return (
@@ -333,7 +333,7 @@ function BestSellers({ goTo }) {
             <input
               type="range"
               min="8000"
-              max="50000"
+              max="200000"
               step="1000"
               value={maxPrice}
               onChange={(event) => setMaxPrice(Number(event.target.value))}
@@ -368,7 +368,7 @@ function BestSellers({ goTo }) {
 
 function Catalog({ category, query, setQuery, goTo }) {
   const [sort, setSort] = useState('popularity')
-  const [maxPrice, setMaxPrice] = useState(50000)
+  const [maxPrice, setMaxPrice] = useState(200000)
   const [viewMode, setViewMode] = useState('grid')
 
   const filtered = useMemo(() => {
@@ -419,7 +419,7 @@ function Catalog({ category, query, setQuery, goTo }) {
             <button
               className="clear-filter"
               onClick={() => {
-                setMaxPrice(50000)
+                setMaxPrice(200000)
                 setSort('popularity')
                 setQuery('')
                 goTo('catalog', { category: 'all' })
@@ -452,7 +452,7 @@ function Catalog({ category, query, setQuery, goTo }) {
             <input
               type="range"
               min="8000"
-              max="50000"
+              max="200000"
               step="1000"
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
