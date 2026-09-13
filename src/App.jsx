@@ -133,25 +133,25 @@ function Home({ goTo }) {
 
   const heroSlides = [
     {
-      image: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=88',
+      image: '/carasoul1.png',
       eyebrow: 'Beautiful spaces, thoughtfully made',
       title: 'Furniture that brings every room to life.',
       body: 'Comfortable, considered pieces for homes, workspaces, and hospitality interiors.',
     },
     {
-      image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1800&q=88',
+      image: '/Carasoul2.jpeg',
       eyebrow: 'Beautiful spaces, thoughtfully made',
       title: 'Comfort that feels like home.',
       body: 'Furniture with warm materials, considered proportions, and the everyday ease your rooms deserve.',
     },
     {
-      image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=88',
+      image: '/caraosuol3.jpeg',
       eyebrow: 'Office furniture',
       title: 'Workspaces built for better ideas.',
       body: 'Desks, seating, and storage that make focused work feel more comfortable.',
     },
     {
-      image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=88',
+      image: '/Caraosuol4.jpeg',
       eyebrow: 'Restaurant and hotel furniture',
       title: 'Spaces guests remember.',
       body: 'Durable, welcoming furniture for restaurants, hotels, and hospitality projects.',
@@ -196,17 +196,6 @@ function Home({ goTo }) {
             src={slide.image}
             alt={slide.title}
           />
-          <div className="hero-shade" />
-          <div className="hero-copy" key={slide.title}>
-            <p className="hero-eyebrow">{slide.eyebrow}</p>
-            <h1>{slide.title}</h1>
-            <p className="hero-body">{slide.body}</p>
-            <div className="hero-actions">
-              <button className="btn-primary" onClick={() => goTo('catalog', { category: 'all' })}>
-                Explore the collection
-              </button>
-            </div>
-          </div>
           <div className="hero-dots" aria-label="Hero slides">
             {heroSlides.map((item, index) => (
               <button
