@@ -763,13 +763,31 @@ function Checkout({ goTo }) {
 
   function placeOrder(e) {
     e.preventDefault()
+    const orderId = 'SC' + Math.floor(100000 + Math.random() * 900000)
+    const itemLines = lineItems
+      .map(({ product, qty }) => `- ${product.name} x ${qty}: ${formatINR(product.price * qty)}`)
+      .join('\n')
+    const message = [
+      `New SmartCraft order #${orderId}`,
+      '',
+      `Customer: ${form.name}`,
+      `Phone: ${form.phone}`,
+      `Address: ${form.address}, ${form.city} - ${form.pincode}`,
+      '',
+      'Items:',
+      itemLines,
+      '',
+      `Subtotal: ${formatINR(subtotal)}`,
+      `Delivery: ${deliveryFee === 0 ? 'Free' : formatINR(deliveryFee)}`,
+      `Total: ${formatINR(total)}`,
+      '',
+      'Please confirm availability and payment instructions.',
+    ].join('\n')
+
     setPlacing(true)
-    // Simulated order placement — wire this up to a real payment/order API.
-    setTimeout(() => {
-      const orderId = 'SC' + Math.floor(100000 + Math.random() * 900000)
-      clearCart()
-      goTo('order-confirmed', { orderId })
-    }, 700)
+    window.open(`https://wa.me/919119130088?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
+    clearCart()
+    goTo('order-confirmed', { orderId })
   }
 
   return (
@@ -820,12 +838,11 @@ function Checkout({ goTo }) {
 
           <h2>Payment</h2>
           <p className="checkout-note">
-            This prototype simulates payment — no real transaction happens. Wire up Razorpay, Stripe,
-            or your preferred gateway here before going live.
+            Submit your order on WhatsApp. Our team will confirm stock, delivery, and payment details with you.
           </p>
 
           <button className="btn-primary btn-block" type="submit" disabled={placing}>
-            {placing ? 'Placing order…' : `Place order · ${formatINR(total)}`}
+            {placing ? 'Opening WhatsApp…' : `Send order on WhatsApp · ${formatINR(total)}`}
           </button>
         </form>
 
@@ -864,9 +881,9 @@ function Checkout({ goTo }) {
 function OrderConfirmed({ goTo, orderId }) {
   return (
     <section className="order-confirmed">
-      <h1>Order placed</h1>
-      <p>Your order <strong>#{orderId}</strong> is confirmed. A confirmation would normally be sent by SMS and email.</p>
-      <p className="checkout-note">Expected delivery: 5–9 working days.</p>
+      <h1>Order request sent</h1>
+      <p>Your order request <strong>#{orderId}</strong> was opened in WhatsApp for the SmartCraft team.</p>
+      <p className="checkout-note">Please send the prefilled message in WhatsApp. The team will confirm your order and payment details.</p>
       <button className="btn-primary" onClick={() => goTo('home')}>
         Back to home
       </button>
