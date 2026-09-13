@@ -71,7 +71,8 @@ function Header({ goTo, query, setQuery, onCartClick }) {
   return (
     <header className="site-header">
       <div className="utility-bar">
-        <span className="utility-item"><span className="utility-icon">⌂</span>Call Now: +91-7503770117</span>
+        <span className="utility-item"><span className="utility-icon">⌂</span>Call Now: +91-9119130088</span>
+        <span className="utility-item utility-email"><span className="utility-icon">✉</span>Email: skfinterior02@gmail.com</span>
         <span className="utility-item utility-links"><span className="utility-icon">☆</span>Trusted by 5,00,000+ Happy Customers</span>
       </div>
       <div className="header-row">
@@ -132,7 +133,7 @@ function Home({ goTo }) {
 
   const heroSlides = [
     {
-      image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=88',
+      image: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=88',
       eyebrow: 'Beautiful spaces, thoughtfully made',
       title: 'Furniture that brings every room to life.',
       body: 'Comfortable, considered pieces for homes, workspaces, and hospitality interiors.',
@@ -943,8 +944,8 @@ function ContactUs({ goTo }) {
       <div className="contact-layout">
         <div className="contact-card">
           <h2>Contact details</h2>
-          <a href="tel:+917503770117"><strong>Call us</strong><span>+91-7503770117</span></a>
-          <a href="mailto:hello@smartcraftfurnishing.com"><strong>Email us</strong><span>hello@smartcraftfurnishing.com</span></a>
+          <a href="tel:+919119130088"><strong>Call us</strong><span>+91-9119130088</span></a>
+          <a href="mailto:skfinterior02@gmail.com"><strong>Email us</strong><span>skfinterior02@gmail.com</span></a>
           <div><strong>Service hours</strong><span>Monday to Saturday, 10:00 AM to 7:00 PM</span></div>
           <button className="link-button" onClick={() => goTo('home')}>Back to home →</button>
         </div>
@@ -980,8 +981,8 @@ function Footer({ goTo }) {
               <img src="/logo.jpeg" alt="SmartCraft Furniture & Interior Solutions" />
             </div>
             <p className="footer-description">Premium furniture, crafted for comfort and designed for your lifestyle.</p>
-            <p className="footer-contact">☎ <a href="tel:+917503770117">+91 7503770117</a></p>
-            <p className="footer-contact">✉ <a href="mailto:hello@smartcraftfurnishing.com">hello@smartcraftfurnishing.com</a></p>
+            <p className="footer-contact">☎ <a href="tel:+919119130088">+91 9119130088</a></p>
+            <p className="footer-contact">✉ <a href="mailto:skfinterior02@gmail.com">skfinterior02@gmail.com</a></p>
             <p className="footer-contact">⌖ Shri Krishna Furniture Mart, Alwar, Rajasthan 301001</p>
           </div>
 

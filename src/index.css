@@ -1517,6 +1517,7 @@ h1, h2, h3 {
   .utility-bar { justify-content: flex-start; overflow-x: auto; padding: 6px 16px; }
   .utility-item { font-size: 12px; }
   .utility-item:not(:first-child) { display: none; }
+  .utility-email { display: flex !important; }
   .hero { padding: 16px 12px 8px; }
   .hero-stage { min-height: 610px; }
   .hero-shade { background: linear-gradient(180deg, rgba(17, 15, 13, 0.18) 18%, rgba(17, 15, 13, 0.78) 100%); }
