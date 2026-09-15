@@ -956,42 +956,62 @@ function ContactUs({ goTo }) {
   )
 }
 
-const customerPartnerImages = [
-  '/1 (1).jpeg',
-  '/1 (2).jpeg',
-  '/1 (3).jpeg',
-  '/1 (4).jpeg',
-  '/1.jpeg',
+const esteemPartnerImages = [
+  { src: '/Nilkamal.jpeg', name: 'Nilkamal' },
+  { src: '/Sleepwell.jpeg', name: 'Sleepwell' },
+  { src: '/spinemat mattress.jpeg', name: 'Spinemat' },
+  { src: '/Geeken.jpeg', name: 'Geeken' },
+  { src: '/Centuryply.jpeg', name: 'CenturyPly' },
+  { src: '/duroflex.jpeg', name: 'Duroflex' },
 ]
 
-function CustomerPartners() {
+const esteemedCustomerImages = [
+  { src: '/Radission blue.jpeg', name: 'Radisson Blue' },
+  { src: '/Goorej interio.jpeg', name: 'Goorej Interior' },
+  { src: '/Governemnt college.jpeg', name: 'Government College' },
+  { src: '/gst.jpeg', name: 'GST' },
+  { src: '/Rajdhani Interio.jpeg', name: 'Rajdhani Interior' },
+  { src: '/ESIC.jpeg', name: 'ESIC' },
+  { src: '/Action Tesa.jpeg', name: 'Action Tesa' },
+  { src: '/Vrindavan guest house.jpeg', name: 'Vrindavan Guest House' },
+]
+
+function LogoCarousel({ title, items, ariaLabel }) {
   const logoRailRef = useRef(null)
 
   function scrollLogos(direction) {
-    logoRailRef.current?.scrollBy({ left: direction * 280, behavior: 'smooth' })
+    logoRailRef.current?.scrollBy({ left: direction * 220, behavior: 'smooth' })
   }
 
   return (
-    <section className="customer-partners" aria-labelledby="customer-partners-title">
+    <section className="customer-partners" aria-labelledby={`${ariaLabel}-title`}>
       <div className="customer-partners-intro">
-        <h2 id="customer-partners-title">Our Partners</h2>
+        <h2 id={`${ariaLabel}-title`}>{title}</h2>
       </div>
       <div className="customer-partner-carousel">
-        <button className="customer-partner-arrow" type="button" aria-label="Previous partners" onClick={() => scrollLogos(-1)}>
+        <button className="customer-partner-arrow" type="button" aria-label={`Previous ${title}`} onClick={() => scrollLogos(-1)}>
           &#8249;
         </button>
         <div className="customer-partner-logos" ref={logoRailRef}>
-          {customerPartnerImages.map((image, index) => (
-            <div className="customer-partner-logo" key={image}>
-              <img src={image} alt={`Customer and partner image ${index + 1}`} loading="lazy" />
+          {items.map((item, index) => (
+            <div className="customer-partner-logo" key={`${item.src}-${index}`}>
+              <img
+                src={item.src}
+                alt={item.name}
+                loading="lazy"
+                onError={(event) => {
+                  const card = event.currentTarget.closest('.customer-partner-logo')
+                  if (card) card.style.display = 'none'
+                }}
+              />
             </div>
           ))}
         </div>
-        <button className="customer-partner-arrow" type="button" aria-label="Next partners" onClick={() => scrollLogos(1)}>
+        <button className="customer-partner-arrow" type="button" aria-label={`Next ${title}`} onClick={() => scrollLogos(1)}>
           &#8250;
         </button>
       </div>
-      <div className="customer-partner-highlights" aria-label="Customer and partner services">
+      <div className="customer-partner-highlights" aria-label={`${title} services`}>
         <span>Custom solutions</span>
         <i aria-hidden="true" />
         <span>Bulk Orders</span>
@@ -1001,6 +1021,15 @@ function CustomerPartners() {
         <span>Dedicated Service</span>
       </div>
     </section>
+  )
+}
+
+function CustomerPartners() {
+  return (
+    <>
+      <LogoCarousel title="Our Esteemed Partners" items={esteemPartnerImages} ariaLabel="esteemed-partners" />
+      <LogoCarousel title="Our Esteemed Clients" items={esteemedCustomerImages} ariaLabel="esteemed-customers" />
+    </>
   )
 }
 
